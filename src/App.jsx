@@ -21,13 +21,17 @@ function App() {
   //   </>
   // )
   let [count, setCount] = useState(0);
+  let hRef = useRef();
 
+  const changeText = () => {
+    hRef.current.innerText = 'WebRTC';
+  }
   let incrementValue = () => {
     count = count + 1;
     setCount(count);
     console.log(count);
   }
-
+  
   let decrementValue = () => {
     count = count - 1;
     setCount(count);
@@ -35,7 +39,7 @@ function App() {
   }
   return (
     <>
-      <h2>Counter Component</h2>
+      <h2 ref={hRef} onClick={changeText}>Counter Component</h2>
       <p>{count}</p>
       <button onClick={incrementValue}>+</button>
       <button onClick={decrementValue}>-</button>
