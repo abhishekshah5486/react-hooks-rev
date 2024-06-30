@@ -1,6 +1,7 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
+import Counter from './Components/CounterComponent/Counter'
 import './App.css'
 
 function App() {
@@ -20,8 +21,21 @@ function App() {
   //     <button onClick={removeValue}>Remove Value</button>
   //   </>
   // )
+  useEffect( () => {
+    console.log("Counter Mounted");
+    return () => {
+      console.log("Unmount counter.")
+    }
+  }, []);
+  // useEffect takes a callback function and a dependency array
+
   let [count, setCount] = useState(0);
+  let [state, setState] = useState(true);
   let hRef = useRef();
+
+  useEffect( () => {
+    console.log("User updated count");
+  }, [count]);
 
   const changeText = () => {
     hRef.current.innerText = 'WebRTC';
@@ -31,18 +45,22 @@ function App() {
     setCount(count);
     console.log(count);
   }
-  
   let decrementValue = () => {
     count = count - 1;
     setCount(count);
     console.log(count);
   }
+  let unmountCounter = () => {
+    setState(!state);
+  }
   return (
     <>
       <h2 ref={hRef} onClick={changeText}>Counter Component</h2>
-      <p>{count}</p>
-      <button onClick={incrementValue}>+</button>
-      <button onClick={decrementValue}>-</button>
+      <button onClick={unmountCounter}>Toggle</button>
+      {state ? <Counter count={count}
+        incrementValue={incrementValue}
+        decrementValue={decrementValue}
+      /> : ""}
     </>
   )
 }
